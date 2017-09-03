@@ -1,14 +1,18 @@
 <?php
+
+/* https://affiliate.dmm.com/api/v3/itemlist.html */
 class DmmAPI {
+
 	private $api_id;
 	private $affiliate_id;
 	private $url;
 	private $xml;
+
 	public function __construct( $api_id, $affiliate_id ) {
 		$this->api_id = $api_id;
 		$this->affiliate_id = $affiliate_id;
 	}
-	// $params_itemlist [ 'site' => 'DMM.com', 'service' => '', 'floor' => '', 'hits' => '20', 'offset' => '1', '' => '', 'sort' => 'rank', '	keyword' => '', 'cid' => '', 'article' => '', 'article_id' => '', 'gte_date' => '', 'lte_date' => '', 'mono_stock' => '', 'output' => 'xml', 'callback' => '' ];
+
 	/**
 	*	create requestURL
 	*
@@ -25,6 +29,7 @@ class DmmAPI {
 		$this->url = substr( $url, 0, -1 );
 		return $this->url;
 	}
+
 	/**
 	*	get response XML type
 	*
@@ -35,6 +40,7 @@ class DmmAPI {
 		$this->xml = simplexml_load_string( file_get_contents( $url ) );
 		return $this->xml;
 	}
+
 	/**
 	*	get response XML type
 	*
