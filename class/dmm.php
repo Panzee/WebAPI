@@ -10,7 +10,6 @@ class DmmAPI {
 		$this->affiliate_id = $affiliate_id;
 	}
 
-
 	// $params_itemlist [ 'site' => 'DMM.com', 'service' => '', 'floor' => '', 'hits' => '20', 'offset' => '1', '' => '', 'sort' => 'rank', '	keyword' => '', 'cid' => '', 'article' => '', 'article_id' => '', 'gte_date' => '', 'lte_date' => '', 'mono_stock' => '', 'output' => 'xml', 'callback' => '' ];
 
 	/**
