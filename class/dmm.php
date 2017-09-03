@@ -1,17 +1,14 @@
 <?php
-
 class DmmAPI {
-
 	private $api_id;
 	private $affiliate_id;
-
+	private $url;
+	private $xml;
 	public function __construct( $api_id, $affiliate_id ) {
 		$this->api_id = $api_id;
 		$this->affiliate_id = $affiliate_id;
 	}
-
 	// $params_itemlist [ 'site' => 'DMM.com', 'service' => '', 'floor' => '', 'hits' => '20', 'offset' => '1', '' => '', 'sort' => 'rank', '	keyword' => '', 'cid' => '', 'article' => '', 'article_id' => '', 'gte_date' => '', 'lte_date' => '', 'mono_stock' => '', 'output' => 'xml', 'callback' => '' ];
-
 	/**
 	*	create requestURL
 	*
@@ -19,15 +16,42 @@ class DmmAPI {
 	* @return string
 	*/
 	public function createRequestURL( $params = [] ) {
-
 		$params_itemlist = [ 'api_id' => $this->api_id, 'affiliate_id' => $this->affiliate_id ,'site' => 'DMM.com', 'output' => 'xml' ];
 		$params = array_merge( $params_itemlist, $params );
-
 		$url = 'https://api.dmm.com/affiliate/v3/ItemList?';
 		foreach( $params as $k => $v ) {
 			$url .= $k . '=' . $v . '&';
 		}
-		return substr( $url, 0, -1 );
+		$this->url = substr( $url, 0, -1 );
+		return $this->url;
 	}
-
+	/**
+	*	get response XML type
+	*
+	* @param $url string
+	* @return string
+	*/
+	public function getResponseXML( $url ) {
+		$this->xml = simplexml_load_string( file_get_contents( $url ) );
+		return $this->xml;
+	}
+	/**
+	*	get response XML type
+	*
+	* @param $xml object
+	* @return array
+	*/
+	public function getResponseAll( $xml ) {
+		$items = [];
+		foreach( $xml->result->items->item as $item ) {
+			$items[] = [ 'title' => $item->title,
+									 'URL' => $item->URL,
+									 'affiliateURL' => $item->affiliateURL,
+									 'imageURL'=> $item->imageURL->large,
+									 'sampleMovieURL'=> $item->sampleMovieURL->size_720_480,
+									 'date'=> $item->date,
+								 ];
+		}
+		return $items;
+	}
 }
