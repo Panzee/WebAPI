@@ -19,9 +19,9 @@ class DmmAPI {
 	* @param $params array https://affiliate.dmm.com/api/v3/itemlist.html
 	* @return string
 	*/
-	public function createRequestURL( $params = [] ) {
-		$params_itemlist = [ 'api_id' => $this->api_id, 'affiliate_id' => $this->affiliate_id ,'site' => 'DMM.com', 'output' => 'xml' ];
-		$params = array_merge( $params_itemlist, $params );
+	public function getRequestURL( $params = [] ) {
+		$base_params = [ 'api_id' => $this->api_id, 'affiliate_id' => $this->affiliate_id ,'site' => 'DMM.com', 'output' => 'xml' ];
+		$params = array_merge( $base_params, $params );
 		$url = 'https://api.dmm.com/affiliate/v3/ItemList?';
 		foreach( $params as $k => $v ) {
 			$url .= $k . '=' . $v . '&';
